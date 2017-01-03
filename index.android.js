@@ -32,7 +32,9 @@ class BlurImage extends Component {
   }
 
   imageLoaded() {
-    this.setState({ viewRef: findNodeHandle(this.backgroundImage) })
+    setTimeout(() => {
+      this.setState({ viewRef: findNodeHandle(this.backgroundImage) })
+    }, 500);
   }
 
   render() {
