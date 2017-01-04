@@ -9,7 +9,7 @@
  * https://github.com/react-native-community/react-native-blur
  */
 'use strict';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   AppRegistry,
   Image,
@@ -21,20 +21,22 @@ import {
 
 import { BlurView } from 'react-native-blur';
 
-class BlurImage extends Component {
+class BlurImage extends PureComponent {
 
   constructor(props) {
     super(props);
     this.backgroundImage = null;
+    this.imageLoaded = this.imageLoaded.bind(this);
     this.state = {
       viewRef: 0,
     }
   }
 
   imageLoaded() {
-    setTimeout(() => {
-      this.setState({ viewRef: findNodeHandle(this.backgroundImage) })
-    }, 500);
+    this.setState({ viewRef: findNodeHandle(this.backgroundImage) }, () => {
+      console.log(this.state.viewRef);
+      console.log('after >> ', this.backgroundImage);
+    })
   }
 
   render() {
@@ -43,7 +45,7 @@ class BlurImage extends Component {
         source={require('./bgimage.jpeg')}
         style={styles.container}
         ref={backgroundImage => this.backgroundImage = backgroundImage}
-        onLoadEnd={this.imageLoaded.bind(this)}>
+        onLoadEnd={this.imageLoaded}>
         <BlurView
           blurRadius={15}
           downsampleFactor={5}
